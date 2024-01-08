@@ -57,7 +57,9 @@ on-the-fly and behind-the-scenes, if the programmer desires.
 %build
 mkdir -p build
 pushd build
-%cmake ..
+%cmake \
+       -DSDLSOUND_BUILD_STATIC:BOOL=OFF \
+       ..
 %make_build
 popd
 

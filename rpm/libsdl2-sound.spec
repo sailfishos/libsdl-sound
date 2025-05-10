@@ -1,9 +1,9 @@
 Summary: Simple DirectMedia Layer - Sound File Decoding Library
 Name: SDL2_sound
-Version: 2.0.1
+Version: 2.0.4
 Release: 1
 Source: %{name}-%{version}.tar.gz
-URL: http://icculus.org/SDL_sound/
+URL: https://github.com/sailfishos/libsdl-sound
 License: zlib
 BuildRequires: cmake
 BuildRequires: pkgconfig(sdl2)
@@ -55,37 +55,27 @@ on-the-fly and behind-the-scenes, if the programmer desires.
 %autosetup -p1 -n %{name}-%{version}/%{name}
 
 %build
-mkdir -p build
-pushd build
-%cmake \
-       -DSDLSOUND_BUILD_STATIC:BOOL=OFF \
-       ..
-%make_build
-popd
+%cmake -DSDLSOUND_BUILD_STATIC:BOOL=OFF
+%cmake_build
 
 %install
-pushd build
-%make_install
-popd
+%cmake_install
 
-%post
-/sbin/ldconfig
+%post -p /sbin/ldconfig
 
-%postun
-/sbin/ldconfig
+%postun -p /sbin/ldconfig
 
 %files
-%defattr(-,root,root)
 %license LICENSE.txt
 %{_libdir}/lib*.so.*
 
 %files playsound
-%defattr(-,root,root)
 %{_bindir}/*
 
 %files devel
-%defattr(-,root,root)
-%doc docs/README.txt docs/CHANGELOG.txt docs/CREDITS.txt
+%doc README.md docs/CHANGELOG.txt docs/CREDITS.txt
 %{_libdir}/lib*.so
 %{_includedir}/*/*.h
+%{_libdir}/cmake/*
+%{_libdir}/pkgconfig/*.pc
 
